@@ -1,6 +1,8 @@
 import { NextPage, GetStaticProps, InferGetStaticPropsType } from "next";
 import axios from "axios";
 import { MongoClient, ObjectId } from "mongodb";
+import clientPromise from "../../lib/mongodb.";
+import { getCustomers } from "../api/customers/index";
 
 export type Customer = {
   _id: ObjectId;
@@ -9,15 +11,7 @@ export type Customer = {
 };
 
 export const getStaticProps: GetStaticProps = async (context) => {
-  const mongoClient = new MongoClient(
-    "mongodb+srv://imtiaz2u6:admin@customers.gxvuo.mongodb.net/Customers?retryWrites=true&w=majority"
-  );
-
-  const data = await mongoClient
-    .db()
-    .collection("Customers")
-    .find({})
-    .toArray();
+  const data = await getCustomers();
 
   console.log("!!!", data);
 
@@ -28,7 +22,7 @@ export const getStaticProps: GetStaticProps = async (context) => {
 
   return {
     props: {
-      customers: JSON.parse(JSON.stringify(data)),
+      customers: data,
     },
     revalidate: 60,
   };
@@ -43,9 +37,10 @@ const Customers: NextPage = ({
       {customers.map((customer: Customer) => {
         return (
           <div key={customer._id.toString()}>
-            <p>{customer.name}</p>
-            <p>{customer.industry}</p>
-            <p>{customer._id.toString()}</p>
+            <p>Customer ID : {customer._id.toString()}</p>
+            <p>Customer Name : {customer.name}</p>
+            <p>Industry : {customer.industry}</p>
+            <br></br>
           </div>
         );
       })}
