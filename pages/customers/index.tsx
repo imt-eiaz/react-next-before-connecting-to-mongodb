@@ -10,7 +10,7 @@ export type Customer = {
 
 export const getStaticProps: GetStaticProps = async (context) => {
   const mongoClient = new MongoClient(
-    "mongodb+srv://imtiaz2u6:Kapler27@customers.gxvuo.mongodb.net/?retryWrites=true&w=majority&appName=Customers"
+    "mongodb+srv://imtiaz2u6:admin@customers.gxvuo.mongodb.net/Customers?retryWrites=true&w=majority"
   );
 
   const data = await mongoClient
