@@ -5,6 +5,7 @@ import axios, { AxiosError } from "axios";
 import { ParsedUrlQuery } from "querystring";
 import clientPromise from "../../lib/mongodb.";
 import { ObjectId } from "mongodb";
+import { getCustomer } from "../api/customers/[id]";
 // import { BSONTypeError } from "bson";
 
 type Props = {
@@ -35,13 +36,7 @@ export const getStaticProps: GetStaticProps<Props, Params> = async (
   const params = context.params!;
 
   try {
-    const mongoClient = await clientPromise;
-
-    const data = (await mongoClient
-      .db()
-      .collection("customers")
-      .findOne({ _id: new ObjectId(params.id) })) as Customer;
-
+    const data = await getCustomer(params.id);
     console.log("!!!", data);
 
     if (!data) {
