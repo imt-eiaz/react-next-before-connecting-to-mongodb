@@ -5,7 +5,7 @@ import clientPromise from "../../lib/mongodb.";
 import { getCustomers } from "../api/customers/index";
 
 export type Customer = {
-  _id: ObjectId;
+  _id?: ObjectId;
   name: string;
   industry: string;
 };
@@ -36,8 +36,8 @@ const Customers: NextPage = ({
       <h1>Customers</h1>
       {customers.map((customer: Customer) => {
         return (
-          <div key={customer._id.toString()}>
-            <p>Customer ID : {customer._id.toString()}</p>
+          <div key={customer._id?.toString()}>
+            <p>Customer ID : {customer._id?.toString()}</p>
             <p>Customer Name : {customer.name}</p>
             <p>Industry : {customer.industry}</p>
             <br></br>
