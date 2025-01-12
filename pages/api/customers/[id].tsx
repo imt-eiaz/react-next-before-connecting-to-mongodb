@@ -42,7 +42,7 @@ export default async (
   res: NextApiResponse<
     | { modifiedCount: number }
     | { customer: Customer }
-    | string
+    | { error: string }
     | { deletedCount: number }
   >
 ) => {
@@ -52,7 +52,7 @@ export default async (
     const data = await getCustomer(id as string);
 
     if (!data) {
-      res.status(404).json("Customer not found");
+      res.status(404).json({ error: "Customer not found" });
     }
 
     res.status(200).json({ customer: data });
